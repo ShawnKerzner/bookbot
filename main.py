@@ -1,38 +1,29 @@
-# Function to count words in the text
-def count_words(text):
-    words = text.split()
-    return len(words)
-
-#Function to count characters in the text
-def count_characters(text):
-    char_counts = {}
-    for char in text:
-        char = char.lower()
-        if char in char_counts:
-            char_counts[char] += 1
-        else:
-            char_counts[char] = 1
-    return char_counts
+import sys
+from stats import count_words, count_characters, sort_char_counts
 
 # Main function to process the book and display results
 def main():
-    #Path to the book file
-    path_to_file = "books/frankenstein.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book")
+        sys.exit(1)
+
+    path_to_file = sys.argv[1]
     with open(path_to_file) as f:
         file_contents = f.read()
-
         # Count words and print the result
         word_count = count_words(file_contents)
-        print(word_count)
+        print(f"Found {word_count} total words")
 
         #Count characters and print the result
         char_count = count_characters(file_contents)
-        print(char_count)
+        sorted_char = sort_char_counts(char_count)
+        
+        print("--------- Character Count -------")
 
-# Test the count characters function with an example string
-test_string = "Hello, World!"
-test_result = count_characters(test_string)
-print(test_result)
+        for char_dict in sorted_char:
+            for char, count in char_dict.items():
+                print(f"{char}: {count}")
+
 
 # Run the main function
 if __name__ == "__main__":
